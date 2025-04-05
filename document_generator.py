@@ -17,6 +17,100 @@ st.set_page_config(
     layout="wide"
 )
 
+# Configure Streamlit theme to maintain consistency in deployment
+st.markdown("""
+    <style>
+        /* Global theme settings to override Streamlit defaults */
+        :root {
+            --background-color: white;
+            --text-color: black;
+            --header-color: #4F46E5;
+        }
+        
+        /* Override Streamlit elements with !important flags for deployment */
+        .stApp {
+            background-color: white !important;
+        }
+        
+        .main {
+            background-color: white !important;
+            color: black !important;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            color: #4F46E5 !important;
+        }
+        
+        /* Force all input fields to maintain white background and black text */
+        .stTextInput > div > div > input, 
+        .stTextArea > div > div > textarea,
+        .stNumberInput > div > div > input,
+        .stDateInput > div > div > input,
+        .stSelectbox > div,
+        .stMultiselect > div {
+            background-color: white !important;
+            color: black !important;
+            border: 1px solid #ccc !important;
+        }
+        
+        /* Strong override for select dropdowns */
+        .stSelectbox > div > div,
+        .stSelectbox > div > div > div,
+        .stSelectbox select {
+            background-color: white !important;
+            color: black !important;
+        }
+        
+        /* Ensure all labels are black and visible */
+        .stTextInput label, 
+        .stTextArea label, 
+        .stNumberInput label, 
+        .stDateInput label, 
+        .stSelectbox label,
+        .stMultiselect label {
+            color: black !important;
+            font-weight: 500 !important;
+        }
+        
+        /* Button styling - maintain consistent look */
+        .stButton > button {
+            background-color: #4F46E5 !important;
+            color: white !important;
+            border-radius: 5px !important;
+            border: none !important;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .stButton > button:hover {
+            background-color: #4338CA !important;
+        }
+        
+        /* Markdown text color */
+        .stMarkdown {
+            color: black !important;
+        }
+        
+        /* Placeholder text */
+        ::placeholder {
+            color: #666 !important;
+            opacity: 1 !important;
+        }
+        
+        /* Force override any Streamlit Cloud theme settings */
+        [data-testid="stForm"] {
+            background-color: white !important;
+            border-color: #e0e0e0 !important;
+        }
+        
+        /* Text inside widgets - additional selector for deployment */
+        [data-baseweb="select"] > div,
+        [data-baseweb="input"] > div {
+            background-color: white !important;
+            color: black !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 # Configure the Gemini API
 GEMINI_API_KEY = "AIzaSyCTD2PAIDkxQcx4dy8BUBTr2ER6QVVNjAo"
 genai.configure(api_key=GEMINI_API_KEY)
@@ -153,61 +247,6 @@ TEMPLATES = {
         ]
     }
 }
-
-# Custom CSS for styling
-st.markdown("""
-    <style>
-    .main {
-        background-color: white;
-        color: black;
-    }
-    h1, h2, h3, h4, h5, h6 {
-        color: #4F46E5 !important;  /* indigo-600 */
-    }
-    /* Fix for input field text color and visibility */
-    .stTextInput>div>div>input, 
-    .stTextArea>div>div>textarea,
-    .stNumberInput>div>div>input {
-        color: black !important;
-        background-color: white !important;
-        border: 1px solid #ccc !important;
-    }
-    /* Fix for date input field */
-    .stDateInput>div>div>input {
-        color: black !important;
-        background-color: white !important;
-    }
-    /* Fix for select box */
-    .stSelectbox>div>div>select {
-        color: black !important;
-        background-color: white !important;
-    }
-    /* Ensure label text is black and visible */
-    .stTextInput label, .stTextArea label, .stNumberInput label, 
-    .stDateInput label, .stSelectbox label {
-        color: black !important;
-        font-weight: 500 !important;
-    }
-    .stButton>button {
-        background-color: #4F46E5;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        padding: 0.5rem 1rem;
-    }
-    .stButton>button:hover {
-        background-color: #4338CA;
-    }
-    .stMarkdown {
-        color: black;
-    }
-    /* Fix for placeholder text */
-    ::placeholder {
-        color: #666 !important;
-        opacity: 1 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
 
 def read_template_file(template_type):
     template = TEMPLATES[template_type]
